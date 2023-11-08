@@ -73,6 +73,10 @@ const Form = ({ onAddItem }) => {
 };
 
 const PackageList = ({ items, setItems }) => {
+    const [sortBy, setSortBy] = useState('input');
+    const clearList = () => {
+        setItems((items) => []);
+    };
     return (
         <>
             <div className="list">
@@ -88,6 +92,17 @@ const PackageList = ({ items, setItems }) => {
                         );
                     })}
                 </ul>
+                <div className="actions">
+                    <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
+                        <option value="input">sort by input order</option>
+                        <option value="description">sort by description</option>
+                        <option value="packed">sort by packed status</option>
+                    </select>
+                    <button onClick={clearList}>Clear List</button>
+                </div>
             </div>
         </>
     );

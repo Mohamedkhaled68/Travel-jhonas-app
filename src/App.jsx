@@ -7,12 +7,15 @@ for (let i = 1; i <= 20; i++) {
 
 const App = () => {
     const [items, setItems] = useState([]);
+    const handelAddItem = (item) => {
+        setItems([...items, item]);
+    };
     return (
         <div className="app">
             <Logo />
-            <Form setItems={setItems} items={items} />
+            <Form setItems={setItems} items={items} onAddItem={handelAddItem} />
             <PackageList items={items} setItems={setItems} />
-            <Footer />
+            <Footer items={items} />
         </div>
     );
 };
@@ -25,7 +28,7 @@ const Logo = () => {
     );
 };
 
-const Form = ({ setItems, items }) => {
+const Form = ({ setItems, items, onAddItem }) => {
     const [description, setDescription] = useState('');
     const [quantity, setQuantity] = useState(1);
     const handleSubmit = (e) => {
@@ -36,7 +39,7 @@ const Form = ({ setItems, items }) => {
             quantity,
             packed: false,
         };
-        setItems([...items, item]);
+        onAddItem(item);
         setDescription('');
         setQuantity(1);
     };
@@ -116,11 +119,21 @@ const Item = ({ el, items, setItems }) => {
     );
 };
 
-const Footer = () => {
+const Footer = ({ items }) => {
+    const packedItems = items.filter((item) => item.packed === true);
+    console.log(items.length);
     return (
         <>
             <footer className="stats">
-                <p></p>
+                <p>
+                    You have {items.length}{' '}
+                    {items.length > 1 ? 'items' : 'item'} on your list, and you
+                    already packed {packedItems.length} {''}(
+                    {items.length === 0
+                        ? '0'
+                        : Math.round((packedItems.length / items.length) * 100)}
+                    %)
+                </p>
             </footer>
         </>
     );

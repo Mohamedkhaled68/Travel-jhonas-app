@@ -121,19 +121,32 @@ const Item = ({ el, items, setItems }) => {
 };
 
 const Footer = ({ items }) => {
+    if (!items.length) {
+        return (
+            <div className="stats">
+                <p>Your list is empty, let's get some items ! 🐱‍🏍</p>
+            </div>
+        );
+    }
     const packedItems = items.filter((item) => item.packed === true);
+    const percentage = Math.round((packedItems.length / items.length) * 100);
+    const cond =
+        packedItems.length > 0 &&
+        items.length > 0 &&
+        packedItems.length === items.length;
     return (
         <>
             <footer className="stats">
-                <p>
-                    You have {items.length}{' '}
-                    {items.length > 1 ? 'items' : 'item'} on your list, and you
-                    already packed {packedItems.length} {''}(
-                    {items.length === 0
-                        ? '0'
-                        : Math.round((packedItems.length / items.length) * 100)}
-                    %)
-                </p>
+                {cond ? (
+                    <p>You got every thing, Ready to go ! 🚀</p>
+                ) : (
+                    <p>
+                        You have {items.length}{' '}
+                        {items.length > 1 ? 'items' : 'item'} on your list, and
+                        you already packed {packedItems.length} {''}(
+                        {percentage}%)
+                    </p>
+                )}
             </footer>
         </>
     );

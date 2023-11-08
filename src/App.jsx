@@ -13,7 +13,7 @@ const App = () => {
     return (
         <div className="app">
             <Logo />
-            <Form setItems={setItems} items={items} onAddItem={handelAddItem} />
+            <Form onAddItem={handelAddItem} />
             <PackageList items={items} setItems={setItems} />
             <Footer items={items} />
         </div>
@@ -28,11 +28,12 @@ const Logo = () => {
     );
 };
 
-const Form = ({ setItems, items, onAddItem }) => {
+const Form = ({ onAddItem }) => {
     const [description, setDescription] = useState('');
     const [quantity, setQuantity] = useState(1);
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (description.trim() == false) return;
         const item = {
             id: Date.now(),
             description,
@@ -121,7 +122,6 @@ const Item = ({ el, items, setItems }) => {
 
 const Footer = ({ items }) => {
     const packedItems = items.filter((item) => item.packed === true);
-    console.log(items.length);
     return (
         <>
             <footer className="stats">
